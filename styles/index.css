@@ -1,0 +1,256 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background-color: #474646;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+    background-color: #474646;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-left: 1.5rem;
+}
+
+.logo-img {
+    height: 48px;
+    width: auto;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-right: 1.5rem;
+}
+
+.btn {
+    padding: 0.85rem 1.75rem;
+    border: none;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    letter-spacing: 0.02em;
+}
+
+.btn-login {
+    background-color: #424242;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    border-radius: 50px;
+}
+
+.login-icon {
+    height: 24px;
+    width: 24px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.btn-login:hover {
+    background-color: #555454;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-login:hover .login-icon {
+    transform: scale(1.1);
+}
+
+.btn-contact {
+    background-color: #424242;
+    color: white;
+    border-radius: 20px;
+}
+
+.btn-contact:hover {
+    background-color: #adb5bd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.hero {
+    margin-left: 7rem;
+    width: 100%;
+    height: 500px;
+    max-width: 2000px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-image: url('../images/hero-icon-steak.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.hero-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 700px;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #e0e0e0;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: #e0e0e0;
+    margin: 0;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: #cfcfcf;
+    margin: 0;
+}
+
+.btn-hero {
+    background-color: #424242;
+    color: white;
+    border-radius: 30px;
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-hero:hover {
+    background-color: #adb5bd;
+    color: #2b2b2b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 992px) {
+    .header-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-buttons {
+        margin-right: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero {
+        height: 400px;
+        width: 95%;
+        margin: 2rem auto;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .btn-hero {
+        padding: 0.8rem 1.8rem;
+        font-size: 1rem;
+    }
+}
+
+/* Small screens (phones) */
+@media (max-width: 600px) {
+    .logo-img {
+        height: 40px;
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-login, .btn-contact {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .hero {
+        height: auto;
+        padding: 3rem 1rem;
+        width: 95%;
+    }
+
+    .hero-content {
+        padding: 3rem 1rem;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .btn-hero {
+        width: 80%;
+        max-width: 250px;
+    }
+}
