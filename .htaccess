@@ -1,0 +1,31 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Remove .php extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Custom 404 Error Page
+ErrorDocument 404 /404.php
+
+# Redirect to 404 if file doesn't exist (fallback)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ 404.php [L]
+
+# Set default file
+DirectoryIndex index.php index.html
+
+# Prevent viewing of .htaccess file
+<Files .htaccess>
+Order allow,deny
+Deny from all
+</Files>
+
+# Prevent viewing of config.php file
+<Files config.php>
+Order allow,deny
+Deny from all
+</Files>
+
