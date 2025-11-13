@@ -23,11 +23,11 @@
                     </label>
                 </div>
 
-                <a href="login" class="btn btn-login">
+                <a href="./login.php" class="btn btn-login">
                     <img src="<?php echo IMAGES_PATH; ?>user-login-2.png" alt="Login" class="login-icon">
                 </a>
 
-                <a href="contact" class="btn btn-contact" style="text-decoration: none;">Contact</a>
+                <a href="./contact.php" class="btn btn-contact" style="text-decoration: none;">Contact</a>
             </nav>
         </div>
     </header>

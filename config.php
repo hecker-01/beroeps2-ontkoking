@@ -1,16 +1,16 @@
 <?php
 // Site configuration
-define('SITE_NAME', 'Ontkoking');
-define('SITE_URL', 'http://localhost');
+const SITE_NAME = 'Ontkoking';
+const SITE_URL = 'http://localhost';
 
 // Path configuration
-define('BASE_PATH', __DIR__);
-define('IMAGES_PATH', 'images/');
-define('STYLES_PATH', 'styles/');
-define('SCRIPTS_PATH', 'scripts/');
+const BASE_PATH = __DIR__;
+const IMAGES_PATH = 'images/';
+const STYLES_PATH = 'styles/';
+const SCRIPTS_PATH = 'scripts/';
 
 // Default settings
-define('DEFAULT_THEME', 'dark');
+const DEFAULT_THEME = 'dark';
 
 // Database configuration (for future use)
 // define('DB_HOST', 'localhost');
@@ -18,4 +18,3 @@ define('DEFAULT_THEME', 'dark');
 // define('DB_USER', 'root');
 // define('DB_PASS', '');
 ?>
-
