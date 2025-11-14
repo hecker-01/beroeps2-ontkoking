@@ -27,6 +27,9 @@ include 'views/header.php';
             <button type="submit" class="btn btn-hero" style="width: 100%; margin-top: 1rem;">
                 Login
             </button>
+            <div class="auth-link">
+                <p>Nog geen account? <a href="register.php">Maak er een aan</a></p>
+            </div>
         </form>
     </div>
 </section>
