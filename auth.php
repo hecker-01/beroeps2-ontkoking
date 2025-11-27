@@ -94,5 +94,3 @@ function validate_csrf(?string $token): bool
         && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-?>
-

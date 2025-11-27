@@ -20,6 +20,5 @@ const DEFAULT_THEME = 'dark';
 // Database configuration (MariaDB on localhost)
 const DB_HOST = 'localhost';
 const DB_PORT = 3306;
-const DB_NAME = 'stu_101729';
+const DB_NAME = 'beroeps2-ontkoking';
 const DB_USER = 'db101729';
-?>

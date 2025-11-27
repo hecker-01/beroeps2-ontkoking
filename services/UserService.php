@@ -57,5 +57,3 @@ function verifyUserCredentials(string $email, string $password): ?array
     return $user;
 }
 
-?>
-

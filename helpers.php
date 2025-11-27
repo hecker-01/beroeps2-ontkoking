@@ -45,5 +45,4 @@ function redirect($url) {
 function asset($path) {
     return SITE_URL . '/' . ltrim($path, '/');
 }
-?>
 

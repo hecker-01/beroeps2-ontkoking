@@ -4,7 +4,13 @@ require_once __DIR__ . '/../database.php';
 
 function fetchFeaturedRecipe(): ?array
 {
-    $pdo = getPDO();
+    try {
+        $pdo = getPDO();
+    } catch (PDOException $exception) {
+        error_log('Failed to fetch featured recipe: ' . $exception->getMessage());
+        return null;
+    }
+
     $stmt = $pdo->query('SELECT r.*, u.name as author_name FROM recipes r LEFT JOIN users u ON u.id = r.created_by ORDER BY r.created_at DESC LIMIT 1');
     return $stmt->fetch() ?: null;
 }
@@ -57,6 +63,4 @@ function splitTextToList(?string $text): array
     $lines = array_map('trim', $lines);
     return array_values(array_filter($lines));
 }
-
-?>
 
