@@ -1,38 +1,34 @@
     <section class="content-section">
-
         <div class="Text">
-            <h2>News</h2>
+            <h2>Nieuws</h2>
             <h1>Recept van de dag</h1>
         </div>
 
-        <div class="upper-content">
-            <p class="upper-text">Spaghetti bolgonese</p>
-        </div>
-
-        <div class="lower-content">
-            <div class="lower-box">
-                <h3>Spaghetti Bolognese – Bereidingswijze</h3>
-                <p>1. Snijd ui, wortel, bleekselderij en knoflook fijn.</p>
-                <p>2. Bak gehakt rul in olijfolie. Voeg groenten toe en bak 5 min.</p>
-                <p>3. Voeg tomatenpuree, tomatenblokjes, bouillon, kruiden, zout en peper toe. Laat 20-30 min sudderen.</p>
-                <p>4. Kook spaghetti volgens verpakking.</p>
-                <p>5. Serveer spaghetti met saus en bestrooi met Parmezaanse kaas.</p>
+        <?php if ($featuredRecipe): ?>
+            <div class="upper-content" style="background-image: url('<?php echo escape($featuredRecipe['image_url'] ?: IMAGES_PATH . 'spaghetti-bolognese.avif'); ?>');">
+                <p class="upper-text"><?php echo escape($featuredRecipe['title']); ?></p>
             </div>
-            <div class="lower-box">
-                <h3>Ingrediënten</h3>
-                <ul>
-                    <li>400 g spaghetti</li>
-                    <li>300-400 g rundergehakt</li>
-                    <li>1 ui, 2 teentjes knoflook</li>
-                    <li>1 wortel, 1 stengel bleekselderij</li>
-                    <li>400 g tomatenblokjes, 2 el tomatenpuree</li>
-                    <li>100 ml bouillon, 100 ml rode wijn (optioneel)</li>
-                    <li>1 tl oregano, 1 tl basilicum</li>
-                    <li>2 el olijfolie, zout en peper</li>
-                    <li>Parmezaanse kaas (optioneel)</li>
-                </ul>
-            </div>
-        </div>
 
+            <div class="lower-content">
+                <div class="lower-box">
+                    <h3><?php echo escape($featuredRecipe['title']); ?> – Bereidingswijze</h3>
+                    <?php foreach (array_slice(splitTextToList($featuredRecipe['instructions']), 0, 5) as $index => $step): ?>
+                        <p><?php echo ($index + 1) . '. ' . escape($step); ?></p>
+                    <?php endforeach; ?>
+                    <a href="recipe.php?id=<?php echo $featuredRecipe['id']; ?>" class="inline-link">Bekijk volledige recept</a>
+                </div>
+                <div class="lower-box">
+                    <h3>Ingrediënten</h3>
+                    <ul>
+                        <?php foreach (array_slice(splitTextToList($featuredRecipe['ingredients']), 0, 8) as $ingredient): ?>
+                            <li><?php echo escape($ingredient); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="empty-state">
+                <p>Er is nog geen recept van de dag. Voeg het eerste recept toe via het adminpaneel.</p>
+            </div>
+        <?php endif; ?>
     </section>
-

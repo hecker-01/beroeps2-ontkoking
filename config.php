@@ -1,7 +1,12 @@
 <?php
-// Site configuration
+/**
+ * Global site configuration
+ */
+
 const SITE_NAME = 'Ontkoking';
-const SITE_URL = 'http://localhost';
+const SITE_URL = 'https://101729.stu.sd-lab.nl/beroeps2-ontkoking';
+
+require_once __DIR__ . '/db_password.php';
 
 // Path configuration
 const BASE_PATH = __DIR__;
@@ -12,9 +17,9 @@ const SCRIPTS_PATH = 'scripts/';
 // Default settings
 const DEFAULT_THEME = 'dark';
 
-// Database configuration (for future use)
-// define('DB_HOST', 'localhost');
-// define('DB_NAME', 'ontkoking');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
+// Database configuration (MariaDB on localhost)
+const DB_HOST = 'localhost';
+const DB_PORT = 3306;
+const DB_NAME = 'stu_101729';
+const DB_USER = 'db101729';
 ?>

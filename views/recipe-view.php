@@ -2,32 +2,35 @@
   <section class="recipe-hero">
     <div class="recipe-media">
       <img
-        src="../images/spaghetti-bolognese.avif"
-        alt="Spaghetti Bolognese"
+        src="<?php echo escape($recipe['image_url'] ?: IMAGES_PATH . 'spaghetti-bolognese.avif'); ?>"
+        alt="<?php echo escape($recipe['title']); ?>"
         class="recipe-image"
       />
     </div>
     <div class="recipe-meta">
-      <h1 class="recipe-title">Spaghetti Bolognese</h1>
+      <h1 class="recipe-title"><?php echo escape($recipe['title']); ?></h1>
       <div class="recipe-author">
         <img
-          src="../images/user-login-2.png"
-          alt="Chef Sandra"
+          src="<?php echo IMAGES_PATH; ?>logo-lightmode.png"
+          alt="<?php echo escape($recipe['author_name'] ?? 'Auteur'); ?>"
           class="author-avatar"
         />
         <div class="author-info">
           <span class="author-label">Gepost door</span>
-          <span class="author-name">Chef Sandra</span>
+          <span class="author-name"><?php echo escape($recipe['author_name'] ?? 'Onbekend'); ?></span>
         </div>
       </div>
       <p class="recipe-intro">
-        Een klassieke Italiaanse favoriet met rijke tomatensaus, verse groenten
-        en kruidige smaken. Perfect voor een gezellige avond met familie.
+        <?php echo escape($recipe['description']); ?>
       </p>
       <div class="recipe-tags">
-        <span class="tag">🍝 Pasta</span>
-        <span class="tag">⏱️ 40 min</span>
-        <span class="tag">👨‍👩‍👧 4 personen</span>
+        <?php if (!empty($recipe['prep_time'])): ?>
+          <span class="tag">⏱ <?php echo escape($recipe['prep_time']); ?></span>
+        <?php endif; ?>
+        <?php if (!empty($recipe['servings'])): ?>
+          <span class="tag">👨‍👩‍👧 <?php echo escape($recipe['servings']); ?></span>
+        <?php endif; ?>
+        <span class="tag">⭐ <?php echo escape(ucfirst($recipe['difficulty'])); ?></span>
       </div>
     </div>
   </section>
@@ -36,9 +39,7 @@
     <div class="summary-box">
       <h2>Over het gerecht</h2>
       <p>
-        Deze Spaghetti Bolognese combineert sappig rundergehakt met een rijke
-        saus van tomaat, groenten en aromatische kruiden. Serveer met vers
-        geraspte Parmezaanse kaas voor de ultieme smaakbeleving.
+        <?php echo escape($recipe['description']); ?>
       </p>
     </div>
   </section>
@@ -47,32 +48,17 @@
     <div class="info-box">
       <h3>Ingrediënten</h3>
       <ul>
-        <li>400 g spaghetti</li>
-        <li>350 g rundergehakt</li>
-        <li>1 ui, fijngesneden</li>
-        <li>2 teentjes knoflook, geperst</li>
-        <li>1 wortel &amp; 1 stengel bleekselderij</li>
-        <li>400 g tomatenblokjes &amp; 2 el tomatenpuree</li>
-        <li>100 ml bouillon, 100 ml rode wijn (optioneel)</li>
-        <li>1 tl oregano, 1 tl basilicum</li>
-        <li>Olijfolie, zout en peper</li>
-        <li>Parmezaanse kaas (optioneel)</li>
+        <?php foreach ($ingredients as $ingredient): ?>
+          <li><?php echo escape($ingredient); ?></li>
+        <?php endforeach; ?>
       </ul>
     </div>
     <div class="info-box">
       <h3>Bereidingswijze</h3>
       <ol>
-        <li>Snijd ui, wortel, bleekselderij en knoflook fijn.</li>
-        <li>
-          Bak het gehakt rul in olijfolie. Voeg de groenten toe en bak 5 minuten
-          mee.
-        </li>
-        <li>
-          Voeg tomatenpuree, tomatenblokjes, bouillon, kruiden en wijn toe. Laat
-          25 minuten sudderen.
-        </li>
-        <li>Kook de spaghetti volgens de aanwijzingen op de verpakking.</li>
-        <li>Serveer de pasta met saus en garneer met Parmezaanse kaas.</li>
+        <?php foreach ($instructions as $step): ?>
+          <li><?php echo escape($step); ?></li>
+        <?php endforeach; ?>
       </ol>
     </div>
   </section>
@@ -80,54 +66,22 @@
   <section class="recipe-reviews">
     <header class="reviews-header">
       <h2>Reviews</h2>
-      <p>Wat anderen zeggen over dit recept.</p>
+      <p>Reviews worden toegevoegd zodra gebruikers feedback kunnen achterlaten.</p>
     </header>
     <div class="reviews-list">
       <article class="review-card">
         <div class="review-author">
           <img
-            src="../images/logo-lightmode.png"
-            alt="Jan"
+            src="<?php echo IMAGES_PATH; ?>logo-lightmode.png"
+            alt="Community"
             class="review-avatar"
           />
           <div>
-            <span class="review-name">Jan</span>
-            <span class="review-date">12 oktober 2025</span>
+            <span class="review-name">Community</span>
+            <span class="review-date"><?php echo date('d M Y', strtotime($recipe['created_at'])); ?></span>
           </div>
         </div>
-        <p>"Fantastisch recept! De saus is heerlijk rijk en vol van smaak."</p>
-      </article>
-      <article class="review-card">
-        <div class="review-author">
-          <img
-            src="../images/logo-lightmode.png"
-            alt="Fatima"
-            class="review-avatar"
-          />
-          <div>
-            <span class="review-name">Fatima</span>
-            <span class="review-date">3 oktober 2025</span>
-          </div>
-        </div>
-        <p>
-          "Mijn kinderen waren dol op dit gerecht. Super makkelijk te volgen."
-        </p>
-      </article>
-      <article class="review-card">
-        <div class="review-author">
-          <img
-            src="../images/logo-lightmode.png"
-            alt="Mark"
-            class="review-avatar"
-          />
-          <div>
-            <span class="review-name">Mark</span>
-            <span class="review-date">28 september 2025</span>
-          </div>
-        </div>
-        <p>
-          "De perfecte balans tussen kruiden en groenten. Zeker een blijvertje!"
-        </p>
+        <p>Dit recept is nog vers uit de keuken. Laat ons weten wat je ervan vindt!</p>
       </article>
     </div>
   </section>

@@ -1,162 +1,128 @@
-# Ontkoking - PHP Recipe Website
+# Ontkoking - PHP Recipe Platform
 
-A Dutch recipe website built with PHP and organized using a view-based architecture.
+Modernized Dutch recipe portal with authentication, admin tooling and a MariaDB backend.
 
 ## 🏗️ Project Structure
 
 ```
 beroeps2-ontkoking/
-├── index.php              # Main entry point
-├── login.php              # Login page
-├── config.php             # Site configuration
-├── .htaccess             # Apache URL rewriting rules
-├── data/
-│   └── recipes.php       # Recipe data (can be replaced with database)
-├── views/
-│   ├── header.php        # Header component
-│   ├── footer.php        # Footer component
-│   ├── hero.php          # Hero section
-│   ├── recipe-section.php # Recipe display section
-│   └── reviews.php       # Reviews section
-├── styles/
-│   └── index.css         # Main stylesheet
-├── scripts/
-│   └── index.js          # JavaScript for theme toggle
-└── images/               # Image assets
-
+├── index.php              # Landing page (hero + featured recipe + reviews)
+├── recipes.php            # Grid with all recipes from the database
+├── recipe.php             # Detailed recipe view
+├── login.php / register.php / logout.php
+├── admin.php              # Admin panel (protected)
+├── bootstrap.php          # Loads config, helpers, DB connection and services
+├── config.php             # Global constants + DB credentials
+├── database/
+│   └── schema.sql         # MariaDB schema (users + recipes)
+├── services/
+│   ├── UserService.php
+│   └── RecipeService.php
+├── views/                 # Header, footer, hero, recipe sections, etc.
+├── styles/                # Global CSS
+├── scripts/               # Theme toggle JS
+└── images/                # Static assets
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- PHP 7.4 or higher
-- Apache web server (with mod_rewrite enabled)
-- Or any PHP development environment (XAMPP, MAMP, WAMP, etc.)
+- PHP 8.1+ with PDO & mysqli extensions
+- MariaDB (or MySQL) reachable at `127.0.0.1:3306`
+- Any local web server (built-in PHP server, MAMP/XAMPP, Apache, …)
 
 ### Installation
-
-1. **Clone or download this repository**
+1. **Clone the repository**
    ```bash
-   cd /Users/jesse/PhpstormProjects/beroeps2-ontkoking
+   cd /Users/jesse/IdeaProjects/beroeps2-ontkoking
    ```
-
-2. **Start your PHP server**
-   
-   **Option A: Using built-in PHP server (for development)**
+2. **Create the database + tables**
+   ```bash
+   mysql -u root -p < database/schema.sql
+   ```
+   This creates the required `users` and `recipes` tables and seeds an admin account:  
+   `admin@ontkoking.test` / `admin123`.
+3. **Configure DB access (optional)**
+   Update `config.php` if your MariaDB host, port or credentials differ.
+4. **Start the development server**
    ```bash
    php -S localhost:8000
    ```
-   Then visit: http://localhost:8000
+   Browse to:
+   - Home: http://localhost:8000/
+   - Login: http://localhost:8000/login.php
+   - Admin: http://localhost:8000/admin.php (after signing in as admin)
 
-   **Option B: Using MAMP/XAMPP/WAMP**
-   - Place the project in your htdocs/www folder
-   - Access via http://localhost/beroeps2-ontkoking
+## 📁 Key Components
 
-   **Option C: Using Apache**
-   - Configure a virtual host pointing to this directory
-   - Make sure mod_rewrite is enabled
-
-3. **Access the website**
-   - Home page: http://localhost:8000/ (or your configured URL)
-   - Login page: http://localhost:8000/login.php
-
-## 📁 File Structure Explained
-
-### Core Files
-
-- **index.php**: Main entry point that includes all view components
-- **config.php**: Contains site-wide configuration constants (paths, site name, etc.)
-- **login.php**: Login page (form only, can be extended with authentication)
-
-### Views (views/)
-
-All view files are modular PHP components that can be included:
-
-- **header.php**: Site header with navigation and theme toggle
-- **footer.php**: Site footer with links and copyright
-- **hero.php**: Hero section with main banner
-- **recipe-section.php**: Displays recipe of the day
-- **reviews.php**: Customer reviews section
-
-### Data (data/)
-
-- **recipes.php**: Contains functions that return recipe data
-  - Can be replaced with database queries later
-
-### Assets
-
-- **styles/**: CSS files
-- **scripts/**: JavaScript files
-- **images/**: Image assets
+- **bootstrap.php** – central include that loads config, helpers, database connection, services and starts the session.
+- **services/UserService.php** – all user/account DB operations (register, login, role checks).
+- **services/RecipeService.php** – CRUD helpers for recipes, including featured recipe selection.
+- **views/header.php / footer.php** – shared layout with navigation, flash messages and script loading.
+- **process-\*** scripts – controllers that handle login, registration, logout and recipe creation with CSRF validation.
 
 ## 🎨 Features
 
-- ✅ Modular view-based architecture
-- ✅ Dark/Light theme toggle with localStorage persistence
-- ✅ Responsive design
-- ✅ Clean URL structure with .htaccess
-- ✅ Separated concerns (views, config, data)
-- ✅ Easy to extend with more pages
+- ✅ Secure login & registration with bcrypt hashed passwords
+- ✅ CSRF-protected forms and flash messaging
+- ✅ Role-based admin panel to add new recipes
+- ✅ Recipes list + detail view powered by MariaDB
+- ✅ Responsive layout with dark/light toggle persisted in localStorage
+- ✅ Clean helper/service architecture with a single bootstrap entry
 
 ## 🔧 Configuration
 
-Edit `config.php` to modify:
-- Site name
-- Base paths
-- Default theme
-- Database settings (for future use)
+`config.php` exposes the knobs you’re most likely to touch:
+
+```php
+const DB_HOST = '127.0.0.1';
+const DB_PORT = 3306;
+const DB_NAME = 'ontkoking';
+const DB_USER = 'root';
+const DB_PASS = '';
+```
+
+Change these to match your local environment, then reload the app.
+
+## 🗄️ Database
+
+We intentionally keep it to **two tables**:
+
+- `users`: name, email, bcrypt hash, role (`user` or `admin`)
+- `recipes`: title, description, ingredients (newline separated), instructions, metadata + foreign key to the author
+
+Import `database/schema.sql` to create everything. Need another admin later?:
+
+```sql
+UPDATE users SET role = 'admin' WHERE email = 'you@example.com';
+```
 
 ## 📝 Adding New Pages
 
-1. Create a new PHP file (e.g., `recipes.php`)
-2. Include config and necessary views:
-   ```php
-   <?php
-   require_once 'config.php';
-   $pageTitle = 'All Recipes';
-   include 'views/header.php';
-   ?>
-   
-   <!-- Your page content here -->
-   
-   <?php include 'views/footer.php'; ?>
-   ```
+Every page follows the same pattern:
 
-## 🗄️ Database Integration (Future)
-
-The project is ready for database integration:
-1. Uncomment database settings in `config.php`
-2. Create a `db.php` file for database connection
-3. Replace data functions in `data/recipes.php` with database queries
-
-Example:
 ```php
-function getRecipeOfTheDay() {
-    global $pdo;
-    $stmt = $pdo->query("SELECT * FROM recipes ORDER BY created_at DESC LIMIT 1");
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+<?php
+require_once __DIR__ . '/bootstrap.php';
+$pageTitle = 'My new page';
+include 'views/header.php';
+?>
+
+<!-- page content -->
+
+<?php include 'views/footer.php'; ?>
 ```
 
-## 🎯 Next Steps
+Use the services (`fetchAllRecipes()`, `fetchRecipeById()`, etc.) to access data safely.
 
-- [ ] Add database integration
-- [ ] Implement user authentication
-- [ ] Create recipe listing page
-- [ ] Add recipe detail pages
-- [ ] Implement search functionality
-- [ ] Add user recipe submission
-- [ ] Create admin panel
+## 🎯 Next Steps / Ideas
+
+- [ ] Recipe search & filtering
+- [ ] User-submitted reviews/comments
+- [ ] Image uploads + media management
+- [ ] Automated feature tests for services/controllers
 
 ## 📄 License
 
-See LICENSE file for details.
-
-## 👥 Authors
-
-SDO Team
-
----
-
-**Note**: The original `index.html` file has been converted to a PHP-based system. The HTML file is kept for reference but is no longer the entry point.
+See `LICENSE` for details.
 

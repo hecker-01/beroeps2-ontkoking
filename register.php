@@ -1,19 +1,17 @@
 <?php
-// Configuration
-require_once 'config.php';
+require_once __DIR__ . '/bootstrap.php';
 
-// Page variables
 $pageTitle = 'Account Aanmaken - ' . SITE_NAME;
 $currentPage = 'register';
 
-// Include header
 include 'views/header.php';
 ?>
 
 <section class="auth-section">
     <div class="auth-container">
         <h1 class="auth-title">Account Aanmaken</h1>
-        <form action="process-register" method="POST" class="auth-form">
+        <form action="process-register.php" method="POST" class="auth-form">
+            <input type="hidden" name="csrf_token" value="<?php echo escape(csrf_token()); ?>">
             <div class="form-group">
                 <label for="name" class="form-label">Gebruikersnaam</label>
                 <input type="text" id="name" name="name" class="form-input" required>
@@ -41,6 +39,5 @@ include 'views/header.php';
 </section>
 
 <?php
-// Include footer
 include 'views/footer.php';
 ?>

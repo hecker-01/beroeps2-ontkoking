@@ -1,57 +1,55 @@
 <?php
-// Configuration
-require_once 'config.php';
-require_once 'helpers.php';
-require_once 'data/recipes.php';
+require_once __DIR__ . '/bootstrap.php';
 
-// Page variables
-$pageTitle = 'All Recipes - ' . SITE_NAME;
+$pageTitle = 'Alle Recepten - ' . SITE_NAME;
 $currentPage = 'recipes';
+$recipes = fetchAllRecipes();
 
-// Get all recipes
-$recipes = getAllRecipes();
-
-// Include header
 include 'views/header.php';
 ?>
 
-<section class="recipes-list-section" style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;">
-    <div class="recipes-header" style="text-align: center; margin-bottom: 3rem;">
-        <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Ontdek</h2>
-        <h1 style="font-size: 2.5rem; margin: 0;">Alle Recepten</h1>
+<section class="recipes-list-section">
+    <div class="recipes-header">
+        <h2>Ontdek</h2>
+        <h1>Alle Recepten</h1>
+        <p>Blader door de nieuwste creaties van ontkoking community.</p>
     </div>
 
-    <div class="recipes-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
-        <?php foreach ($recipes as $recipe): ?>
-            <div class="recipe-card" style="background-color: #424242; border-radius: 12px; overflow: hidden; transition: transform 0.3s ease;">
-                <img src="<?php echo escape($recipe['image']); ?>"
-                     alt="<?php echo escape($recipe['name']); ?>"
-                     style="width: 100%; height: 200px; object-fit: cover;">
-                <div style="padding: 1.5rem;">
-                    <h3 style="color: white; margin: 0 0 1rem 0; font-size: 1.3rem;">
-                        <?php echo escape($recipe['name']); ?>
-                    </h3>
-                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-                        <span style="color: #aaa; font-size: 0.9rem;">
-                            📁 <?php echo escape($recipe['category']); ?>
-                        </span>
-                        <span style="color: #aaa; font-size: 0.9rem;">
-                            ⭐ <?php echo escape($recipe['difficulty']); ?>
-                        </span>
+    <?php if (empty($recipes)): ?>
+        <div class="empty-state">
+            <p>Er zijn nog geen recepten beschikbaar. Log in als admin om het eerste recept toe te voegen.</p>
+        </div>
+    <?php else: ?>
+        <div class="recipes-grid">
+            <?php foreach ($recipes as $recipe): ?>
+                <article class="recipe-card">
+                    <div class="recipe-card-image" style="background-image: url('<?php echo escape($recipe['image_url'] ?: IMAGES_PATH . 'spaghetti-bolognese.avif'); ?>');"></div>
+                    <div class="recipe-card-body">
+                        <div class="recipe-meta-line">
+                            <span><?php echo escape(ucfirst($recipe['difficulty'])); ?></span>
+                            <?php if (!empty($recipe['prep_time'])): ?>
+                                <span>⏱ <?php echo escape($recipe['prep_time']); ?></span>
+                            <?php endif; ?>
+                            <?php if (!empty($recipe['servings'])): ?>
+                                <span>👥 <?php echo escape($recipe['servings']); ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <h3><?php echo escape($recipe['title']); ?></h3>
+                        <p><?php echo escape($recipe['description']); ?></p>
+                        <div class="recipe-card-footer">
+                            <div>
+                                <small>Door <?php echo escape($recipe['author_name'] ?? 'Onbekend'); ?></small>
+                                <small><?php echo date('d M Y', strtotime($recipe['created_at'])); ?></small>
+                            </div>
+                            <a href="recipe.php?id=<?php echo $recipe['id']; ?>" class="btn btn-hero">Bekijk recept</a>
+                        </div>
                     </div>
-                    <a href="recipe.php?id=<?php echo $recipe['id']; ?>"
-                       class="btn btn-hero"
-                       style="display: inline-block; text-decoration: none; padding: 0.75rem 1.5rem;">
-                        View Recipe
-                    </a>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </section>
 
 <?php
-// Include footer
 include 'views/footer.php';
 ?>
-

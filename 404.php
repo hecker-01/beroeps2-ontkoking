@@ -1,6 +1,6 @@
 <?php
 http_response_code(404);
-require_once 'config.php';
+require_once __DIR__ . '/bootstrap.php';
 
 $currentPage = '404';
 $pageTitle = '404 - Pagina niet gevonden | Ontkoking';
@@ -38,22 +38,13 @@ include 'views/header.php';
 
 .error-container h1 {
     font-size: 8rem;
-    font-weight: bold;
-    color: var(#ff6b6b);
+    font-weight: 700;
+    color: #ff6b6b;
     margin: 0;
-    line-height: 1;
 }
 
 .error-container h2 {
-    font-size: 2rem;
-    margin: 1rem 0;
-    color: var(#333);
-}
-
-.error-container p {
-    font-size: 1.1rem;
-    margin: 1rem 0;
-    color: var(#666);
+    margin: 1rem 0 0.5rem 0;
 }
 
 .error-nav {
@@ -65,16 +56,23 @@ include 'views/header.php';
 }
 
 .error-nav .btn {
-    padding: 0.75rem 1.5rem;
-    background-color: var(#ff6b6b);
-    color: white;
+    padding: 0.85rem 1.75rem;
+    background-color: #424242;
+    color: #fff;
+    border-radius: 999px;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .error-nav .btn:hover {
-    background-color: var(#ff5252);
+    transform: translateY(-2px);
+    background-color: #616161;
+}
+
+@media (max-width: 600px) {
+    .error-container h1 {
+        font-size: 5rem;
+    }
 }
 </style>
 

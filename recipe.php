@@ -1,21 +1,26 @@
 <?php
-// Configuration
-require_once 'config.php';
-require_once 'helpers.php';
-require_once 'data/recipes.php';
+require_once __DIR__ . '/bootstrap.php';
 
-// Page variables
-$pageTitle = 'All Recipes - ' . SITE_NAME;
 $currentPage = 'recipes';
+$recipeId = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-// Get all recipes
-$recipes = getAllRecipes();
+if (!$recipeId) {
+    require __DIR__ . '/404.php';
+    exit;
+}
 
-// Include header
+$recipe = fetchRecipeById($recipeId);
+
+if (!$recipe) {
+    require __DIR__ . '/404.php';
+    exit;
+}
+
+$pageTitle = $recipe['title'] . ' - ' . SITE_NAME;
+$ingredients = splitTextToList($recipe['ingredients']);
+$instructions = splitTextToList($recipe['instructions']);
+
 include 'views/header.php';
-// Include recipe view
 include 'views/recipe-view.php';
-// Include footer
 include 'views/footer.php';
 ?>
-
