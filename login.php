@@ -1,7 +1,7 @@
 <?php
 // Configuration
 require_once 'config.php';
-
+     
 // Page variables
 $pageTitle = 'Login - ' . SITE_NAME;
 $currentPage = 'login';
